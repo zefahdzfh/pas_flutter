@@ -38,9 +38,9 @@ class _ProductDetailState extends State<ProductDetail> {
               height: tinggi / 2.41,
               child: CarouselSlider(
                 options: CarouselOptions(
-                  height: tinggi / 2.41,
+                  aspectRatio: 16 / 9,
                   viewportFraction: 1.0,
-                  enableInfiniteScroll: false,
+                  enlargeCenterPage: false,
                   onPageChanged: (index, reason) {
                     setState(() {
                       _current = index;
@@ -48,62 +48,15 @@ class _ProductDetailState extends State<ProductDetail> {
                   },
                 ),
                 items: imgList.map((item) => Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(item),
-                      fit: BoxFit.cover,
-                    ),
+                  child: Center(
+                    child: Image.asset(item, fit: BoxFit.cover, width: lebar),
                   ),
                 )).toList(),
               ),
             ),
           ),
           Positioned(
-            left: 0,
-            right: 0,
-            top: 250,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: imgList.map((url) {
-                int index = imgList.indexOf(url);
-                return Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _current == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          Positioned(
-            right: 20,
-            top: 245,
-            child: InkWell(
-              onTap: () {
-                    setState(() {
-                      liked = !liked;
-                    });
-                  },
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(24)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                      liked ? Icons.favorite : Icons.favorite_border,
-                      color: liked ? Colors.red : Colors.grey,
-                      size: 20,
-                    ),
-                ),
-                  
-                ),
-              ),
-            ),
-          
-          Positioned(
-            top: 45,
+            top: 40,
             left: 20,
             right: 20,
             child: Row(
@@ -113,155 +66,216 @@ class _ProductDetailState extends State<ProductDetail> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: black,
-                      borderRadius: BorderRadius.circular(24)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.arrow_back_ios_rounded, size: 20, color: Colors.white),
-                    ),
-                  ),
+                  child: Icon(Icons.arrow_back_ios),
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.shopping_cart_outlined, size: 20, color: black),
-                    ),
-                  ),
-                )
+                Icon(Icons.file_upload_outlined),
               ],
             ),
           ),
           Positioned(
+            top: tinggi / 2.65,
+            bottom: 0,
             left: 0,
             right: 0,
-            top: tinggi / 2.41 - 20,
             child: Container(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+              padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
-                color: Colors.white
+                color: grey,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(30),
+                ),
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: lebar * 0.5, // Adjust the width as needed
-                            child: Text(
-                              'Classic Grey Hooded Sweatshirt',
-                              style: GoogleFonts.rubik(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: black,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
+                      Text(
+                        "Classic Heather Gray Hoodie",
+                        style: GoogleFonts.rubik(
+                          textStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            liked = !liked;
+                          });
+                        },
+                        child: Icon(
+                          liked ? Icons.favorite : Icons.favorite_outline,
+                          color: liked ? Colors.red : black,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: tinggi * 0.01),
+                  Row(
+                    children: [
+                      Icon(Icons.star, size: 15, color: Colors.amber),
+                      Icon(Icons.star, size: 15, color: Colors.amber),
+                      Icon(Icons.star, size: 15, color: Colors.amber),
+                      Icon(Icons.star, size: 15, color: Colors.amber),
+                      Icon(Icons.star, size: 15, color: Colors.amber),
+                      SizedBox(width: 10),
+                      Text(
+                        "(450)",
+                        style: GoogleFonts.rubik(
+                          textStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: tinggi * 0.01),
+                  Text(
+                    "\$${price.toStringAsFixed(2)}",
+                    style: GoogleFonts.rubik(
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: tinggi * 0.02),
+                  Text(
+                    "Stay cozy and stylish with our Classic Heather Gray Hoodie, "
+                    "made from a soft and durable blend of materials. Perfect for "
+                    "everyday wear or layering during colder months.",
+                    style: GoogleFonts.rubik(
+                      textStyle: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: tinggi * 0.02),
+                  Text(
+                    "Size",
+                    style: GoogleFonts.rubik(
+                      textStyle: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: tinggi * 0.01),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: ["S", "M", "L", "XL", "XXL"]
+                        .map((size) => Container(
+                      width: lebar / 6,
+                      height: tinggi * 0.06,
+                      decoration: BoxDecoration(
+                        color: black,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          size,
+                          style: GoogleFonts.rubik(
+                            textStyle: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
                             ),
                           ),
-                          SizedBox(height: 16,),
-                          Row(
+                        ),
+                      ),
+                    ))
+                        .toList(),
+                  ),
+                  SizedBox(height: tinggi * 0.02),
+                  Text(
+                    "Quantity",
+                    style: GoogleFonts.rubik(
+                      textStyle: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: tinggi * 0.01),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: lebar / 4,
+                        height: tinggi * 0.06,
+                        decoration: BoxDecoration(
+                          color: black,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Row(
-                                children: List.generate(5, (index) {
-                                  return Icon(Icons.star, color: Color(0xffFBD914), size: 15);
-                                }),
+                              InkWell(
+                                onTap: () {
+                                  if (count > 1) {
+                                    setState(() {
+                                      count--;
+                                    });
+                                  }
+                                },
+                                child: Icon(
+                                  Icons.remove,
+                                  color: Colors.white,
+                                ),
                               ),
-                              SizedBox(width: 6),
                               Text(
-                                '(270 Review)',
+                                count.toString(),
                                 style: GoogleFonts.rubik(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: black,
+                                  textStyle: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    count++;
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
                                 ),
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: grey
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (count > 1) {
-                                        setState(() {
-                                          count -= 1;
-                                        });
-                                      }
-                                    },
-                                    child: Icon(Icons.remove, color: black,size: 16,),
-                                  ),
-                                  SizedBox(width: 16),
-                                  Text(
-                                    '$count',
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(width: 16),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        count += 1;
-                                      });
-                                    },
-                                    child: Icon(Icons.add, color: black,size: 16,),
-                                  ),
-                                ],
+                      Container(
+                        width: lebar / 2.5,
+                        height: tinggi * 0.06,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Add to Cart",
+                            style: GoogleFonts.rubik(
+                              textStyle: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
                               ),
                             ),
                           ),
-                          SizedBox(height: 16,),
-                          Text(
-                                'Available in stock',
-                                style: GoogleFonts.rubik(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: black,
-                                ),
-                              ),
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 20,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Description',style: GoogleFonts.rubik(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: black
-                      ),),
-                      SizedBox(height: 16,),
-                  Text(
-"The Classic Grey Hooded Sweatshirt is a versatile addition to your casual wardrobe. Made from high-quality cotton blend fabric, this sweatshirt offers both comfort and style. Featuring a classic grey color, it pairs effortlessly with jeans or joggers for a laid-back look. The hood provides added warmth during chilly days, while the front kangaroo pocket adds a practical touch. Whether you're running errands or relaxing at home, this sweatshirt is sure to become a go-to favorite."
-,style: GoogleFonts.rubik(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.grey
-                  ))
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -270,66 +284,7 @@ class _ProductDetailState extends State<ProductDetail> {
           ),
         ],
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Total Price',
-              style: GoogleFonts.rubik(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.grey,
-              ),
-            ),
-           
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '\$${(price * count).toStringAsFixed(2)}',
-                  style: GoogleFonts.rubik(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: black,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    // Aksi ketika tombol "Add to cart" ditekan
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: black,
-                      borderRadius: BorderRadius.circular(24)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 72),
-                      child: Row(
-                        children: [
-                          Icon(Icons.shopping_bag_outlined, size: 18, color: Colors.white,),
-                          SizedBox(width: 6,),
-                          Text(
-                            'Add to cart',
-                            style: GoogleFonts.rubik(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
+

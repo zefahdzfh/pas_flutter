@@ -221,22 +221,27 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     )
-                    : Wrap(
-                        alignment: WrapAlignment.spaceBetween,
-                        runAlignment: WrapAlignment.center,
-                        spacing: 12, // Horizontal spacing between products
-                        runSpacing: 12, // Vertical spacing between products
-                        children: _filterProducts().map((product) {
-                          return Container(
-                            width: (lebar - 64) / 2, // Set width to half of the screen minus spacing
-                            child: Product(
-                              name: product['name']!,
-                              img: product['img']!,
-                              deskripsi: product['deskripsi']!,
-                              harga: product['harga']!,
-                            ),
+                    : LayoutBuilder(
+                        builder: (context, constraints) {
+                          var gridCount = constraints.maxWidth < 600 ? 2 : 4;
+                          return Wrap(
+                            alignment: WrapAlignment.spaceBetween,
+                            runAlignment: WrapAlignment.center,
+                            spacing: 12, // Horizontal spacing between products
+                            runSpacing: 12, // Vertical spacing between products
+                            children: _filterProducts().map((product) {
+                              return Container(
+                                width: (constraints.maxWidth - (gridCount - 1) * 12) / gridCount,
+                                child: Product(
+                                  name: product['name']!,
+                                  img: product['img']!,
+                                  deskripsi: product['deskripsi']!,
+                                  harga: product['harga']!,
+                                ),
+                              );
+                            }).toList(),
                           );
-                        }).toList(),
+                        },
                       ),
               ),
               // End product
@@ -247,6 +252,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
 
 
 
